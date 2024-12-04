@@ -65,7 +65,7 @@ class Menu {
                         tc.setCurrentUser(null);
                         System.out.println("Logged out. Returning to Main Menu...");
                         break;
-                    case 6: // Exit is now option 6
+                    case 6:
                         isRunning = false;
                         System.out.println("Exiting...");
                         break;
@@ -78,6 +78,6 @@ class Menu {
     }
 
     private static void viewNotifications() {
-        System.out.println("You have no new notifications."); // Placeholder for notifications feature
+        System.out.println("You have no new notifications.");
     }
 }

@@ -52,13 +52,13 @@ public class taskCompass {
         System.out.println("Task created successfully!");
     }
 
-    // public void editTask(Scanner sc) {
+    public void editTask(Scanner sc) {
     //     if(){
 
     //     } else {
 
     //     }
-    // }
+    }
 
     //Getters
     public boolean getLoggedIn() {
