@@ -1,52 +1,133 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
-class test {
-    public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
+class Menu {
+    private static ArrayList<Task> tasks = new ArrayList<>();
+    private static ArrayList<String> users = new ArrayList<>();
+    private static boolean isLoggedIn = false;
+    private static String currentUser = null;
 
-        boolean menuStop = false;
-        
-        //while loop to run until exit is selected
-        while(menuStop == false) {
-            //printing options menu
-            System.out.println("Welcome to the bookstore, please select an option below:");
-            System.out.println("\t1: Check Inventory");
-            System.out.println("\t2: Add Member");
-            System.out.println("\t3: Make Purchase");
-            System.out.println("\t4: Check Customer's Total Spent");
-            System.out.println("\t5: Check Premium Fee Payment");
-            System.out.println("\t9: Exit");
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
 
-        //prompting user for selection and storing it
-        System.out.println("Please enter a selection from the list. input 1-8");
-        String menuInput = sc.next();
+        while (isRunning) {
+            if (!isLoggedIn) {
+                System.out.println("Main Menu:");
+                System.out.println("1. Login");
+                System.out.println("2. Sign Up");
+                System.out.println("3. Exit");
+                System.out.print("Enter your choice: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-            //executes desired method based on user input, also warns of erroneous input
-            switch(menuInput) {
-                case "1":
-                    tomsBooks.checkInventory();
-                    break;
-                case "2":
-                    tomsBooks.addMember();
-                    break;
-                case "3":
-                    tomsBooks.makePurchase();
-                    break;
-                case "4":
-                    tomsBooks.checkAmountSpent();
-                    break;
-                case "5":
-                    tomsBooks.checkFeePayment();
-                    break;
-                case "9":
-                    menuStop = true;
-                    break;
-                default:
-                    System.out.println("ERROR: Invalid input, please try again.\n");
-                    break;
+                switch (choice) {
+                    case 1:
+                        login(scanner);
+                        break;
+                    case 2:
+                        signUp(scanner);
+                        break;
+                    case 3:
+                        isRunning = false;
+                        System.out.println("Exiting...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } else {
+                System.out.println("\nLogged In Menu:");
+                System.out.println("1. View Tasks");
+                System.out.println("2. Create Task");
+                System.out.println("3. View Notifications");
+                System.out.println("4. Change User");
+                System.out.println("5. Exit");
+                System.out.print("Enter your choice: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        viewTasks();
+                        break;
+                    case 2:
+                        createTask(scanner);
+                        break;
+                    case 3:
+                        viewNotifications();
+                        break;
+                    case 4:
+                        isLoggedIn = false;
+                        currentUser = null;
+                        System.out.println("Logged out. Returning to Main Menu...");
+                        break;
+                    case 5:
+                        isRunning = false;
+                        System.out.println("Exiting...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
             }
-            
-        sc.close();
         }
+        scanner.close();
+    }
+
+    private static void login(Scanner scanner) {
+        System.out.print("Enter username to login: ");
+        String username = scanner.nextLine();
+        if (users.contains(username)) {
+            currentUser = username;
+            isLoggedIn = true;
+            System.out.println("Logged in as " + currentUser);
+        } else {
+            System.out.println("Username not found. Please sign up first.");
+        }
+    }
+
+    private static void signUp(Scanner scanner) {
+        System.out.print("Enter a new username: ");
+        String newUser = scanner.nextLine();
+        if (users.contains(newUser)) {
+            System.out.println("Username already exists. Please try a different username.");
+        } else {
+            users.add(newUser);
+            System.out.println("User registered successfully! You can now log in.");
+        }
+    }
+
+    private static void viewTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks available.");
+        } else {
+            System.out.println("Your Tasks:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + ". " + tasks.get(i));
+            }
+        }
+    }
+
+    private static void createTask(Scanner scanner) {
+        System.out.print("Enter task description: ");
+        String description = scanner.nextLine();
+        tasks.add(new Task(description));
+        System.out.println("Task created successfully!");
+    }
+
+    private static void viewNotifications() {
+        System.out.println("You have no new notifications."); // Placeholder for notifications feature
+    }
+}
+
+class Task {
+    private String description;
+
+    public Task(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return description;
     }
 }
