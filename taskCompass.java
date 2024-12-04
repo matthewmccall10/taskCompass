@@ -20,7 +20,7 @@ public class taskCompass {
             isLoggedIn = true;
             System.out.println("Logged in as " + currentUser);
         } else {
-            System.out.println("Username not found. Please sign up first.");
+            System.out.println("Username not found. Please sign up first.\n");
         }
     }
 

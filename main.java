@@ -43,7 +43,7 @@ class Menu {
                 System.out.println("4. View Notifications");
                 System.out.println("5. Change User");
                 System.out.println("6. Exit\n");
-                System.out.print("Enter your choice: ");
+                System.out.print("Enter your choice: \n");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
 
