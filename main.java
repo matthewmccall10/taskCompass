@@ -39,9 +39,10 @@ class Menu {
                 System.out.println("\nLogged In Menu:");
                 System.out.println("1. View Tasks");
                 System.out.println("2. Create Task");
-                System.out.println("3. View Notifications");
-                System.out.println("4. Change User");
-                System.out.println("5. Exit");
+                System.out.println("3. Edit Task");
+                System.out.println("4. View Notifications");
+                System.out.println("5. Change User");
+                System.out.println("6. Exit");
                 System.out.print("Enter your choice: ");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -54,20 +55,23 @@ class Menu {
                         tc.createTask(scanner);
                         break;
                     case 3:
-                        viewNotifications();
+                        tc.editTask(scanner);
                         break;
                     case 4:
+                        viewNotifications();
+                        break;
+                    case 5:
                         tc.setLoggedIn(false);
                         tc.setCurrentUser(null);
                         System.out.println("Logged out. Returning to Main Menu...");
                         break;
-                    case 5:
+                    case 6: // Exit is now option 6
                         isRunning = false;
                         System.out.println("Exiting...");
                         break;
                     default:
                         System.out.println("Invalid choice. Please try again.");
-                }
+                }                
             }
         }
         scanner.close();
