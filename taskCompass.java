@@ -6,7 +6,7 @@ public class taskCompass {
     private ArrayList<task> tasks = new ArrayList<>();
     private ArrayList<repeatTask> repeatTasks = new ArrayList<>();
     private ArrayList<partnerTask> partnerTasks = new ArrayList<>();
-    // private ArrayList<repeatPartnerTask> repeatPartnerTasks = new ArrayList<>();
+    private ArrayList<comboTask> comboTasks = new ArrayList<>();
     private ArrayList<String> users = new ArrayList<>();
     private boolean isLoggedIn = false;
     private String currentUser;
@@ -64,7 +64,6 @@ public class taskCompass {
             }
         }
     }
-    
 
     // Menu Option for Create Task
     public void createTask(Scanner sc) {
@@ -103,30 +102,78 @@ public class taskCompass {
                     break;
             }
         }
-        
-        //START MATTHEW'S CODE
+
+        //REPEATING TASK CREATION
         System.out.println("Is this a repeating task? (yes/no): ");
         boolean checkRepeating = false;
-        String isRepeating = sc.nextLine().toLowerCase();
+        String isRepeatingTask = sc.nextLine().toLowerCase();
 
-        if (isRepeating.equals("yes") || isRepeating.equals("y")) {
+        String repeatInterval = "Error";
+        LocalDate endDate = LocalDate.now();
+
+
+        if (isRepeatingTask.equals("yes") || isRepeatingTask.equals("y")) {
             checkRepeating = true;
             System.out.println("Enter repeat interval (daily, weekly, monthly): ");
-            String repeatInterval = sc.nextLine();
+            repeatInterval = sc.nextLine();
             
             System.out.println("Enter end date (YYYY-MM-DD) or leave blank for no end date: ");
             String endDateInput = sc.nextLine();
-            LocalDate endDate = endDateInput.isEmpty() ? null : LocalDate.parse(endDateInput);
+            endDate = endDateInput.isEmpty() ? null : LocalDate.parse(endDateInput);
         }
 
-        //ADD MULTIPLE TASK CREATION CALLS
+        //PARTNER TASK CREATION
+        System.out.println("Did you want this to be a partner task? (yes/no): ");
+        boolean checkPartner = false;
+        String isPartnerTask = sc.nextLine().toLowerCase();
+        String partnerName = "Error";
+
+        if (isPartnerTask.equals("yes") || isPartnerTask.equals("y")) {
+            if (users.size() < 2) {
+                System.out.println("Not enough registered users, reverting to non-partner task.");
+            } else {
+                checkPartner = true;
+                boolean selectingPartner = true;
+
+                while(selectingPartner) {
+                    for (int i = 0; i < users.size(); i++ ) {
+                        System.out.println("Available partners:");
+                        if (!users.get(i).equals(getCurrentUser())) {
+                            System.out.print( users.get(i) + " ");
+                        }
+                        System.out.println("\n");
+                    }
+
+                    System.out.println("Enter user to partner with: ");
+                    String partnerSearch = sc.nextLine();
+                    if (users.contains(partnerSearch)) {
+                        if (!partnerSearch.equals(getCurrentUser())) {
+                            System.out.println("You cannot partner with yourself!\nPlease try again...");
+                        } else {
+                            selectingPartner = false;
+                            partnerName = partnerSearch;
+                        }
+                    }
+                }
+                
+            }
+        }
+
 
         //Regular task  call
-        task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false);
-
-        //Repeated task call
-        // repeatTask newRepeatTask = new repeatTask(tasks.size(), taskName, currentUser, repeatInterval, endDate);
-        //     tasks.add(newRepeatTask);
+        if (checkRepeating == false && checkPartner == false) {
+            task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false);
+            tasks.add(newTask);
+        } else if (checkRepeating == true && checkPartner == false) {
+            repeatTask newRepeatTask = new repeatTask(repeatTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, repeatInterval, endDate);
+            repeatTasks.add(newRepeatTask);
+        } else if (checkRepeating == false && checkPartner == true) {
+            partnerTask newPartnerTask = new partnerTask(partnerTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, partnerName);
+            partnerTasks.add(newPartnerTask);
+        } else if (checkRepeating == true && checkPartner == true) {
+            comboTask newComboTask = new comboTask(comboTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, repeatInterval, endDate, partnerName);
+            comboTasks.add(newComboTask);
+        }
         
         System.out.println("Task created successfully!");
     }

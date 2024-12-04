@@ -11,17 +11,18 @@ public class repeatTask extends task {
         this.endDate = endDate;
     }
 
-    // Getters and setters
+    // Getters
     public String getRepeatInterval() {
         return repeatInterval;
     }
 
-    public void setRepeatInterval(String repeatInterval) {
-        this.repeatInterval = repeatInterval;
-    }
-
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    //Setters
+    public void setRepeatInterval(String repeatInterval) {
+        this.repeatInterval = repeatInterval;
     }
 
     public void setEndDate(LocalDate endDate) {
