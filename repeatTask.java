@@ -1,5 +1,5 @@
 public class repeatTask extends task {
-    public repeatTask(int taskID, String taskName) {
-        super(taskID, taskName);
+    public repeatTask(int taskID, String taskName, String userName) {
+        super(taskID, taskName, userName);
     }
 }
