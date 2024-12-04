@@ -15,12 +15,38 @@ class test {
             System.out.println("\t3: Make Purchase");
             System.out.println("\t4: Check Customer's Total Spent");
             System.out.println("\t5: Check Premium Fee Payment");
-            System.out.println("\t6: Restock Product");
-            System.out.println("\t7: Check Inventory Value");
-            System.out.println("\t8: Compare Product Prices");
             System.out.println("\t9: Exit");
-        }
 
+        //prompting user for selection and storing it
+        System.out.println("Please enter a selection from the list. input 1-8");
+        String menuInput = sc.next();
+
+            //executes desired method based on user input, also warns of erroneous input
+            switch(menuInput) {
+                case "1":
+                    tomsBooks.checkInventory();
+                    break;
+                case "2":
+                    tomsBooks.addMember();
+                    break;
+                case "3":
+                    tomsBooks.makePurchase();
+                    break;
+                case "4":
+                    tomsBooks.checkAmountSpent();
+                    break;
+                case "5":
+                    tomsBooks.checkFeePayment();
+                    break;
+                case "9":
+                    menuStop = true;
+                    break;
+                default:
+                    System.out.println("ERROR: Invalid input, please try again.\n");
+                    break;
+            }
+            
         sc.close();
+        }
     }
 }
