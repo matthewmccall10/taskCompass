@@ -42,8 +42,8 @@ class Menu {
                 System.out.println("3. Edit Task");
                 System.out.println("4. View Notifications");
                 System.out.println("5. Change User");
-                System.out.println("6. Exit");
-                System.out.print("Enter your choice: ");
+                System.out.println("6. Exit\n");
+                System.out.print("Enter your choice: \n");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
 
@@ -63,7 +63,7 @@ class Menu {
                     case 5:
                         tc.setLoggedIn(false);
                         tc.setCurrentUser(null);
-                        System.out.println("Logged out. Returning to Main Menu...");
+                        System.out.println("Logged out. Returning to Main Menu...\n");
                         break;
                     case 6:
                         isRunning = false;
