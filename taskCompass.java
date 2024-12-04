@@ -5,7 +5,7 @@ public class taskCompass {
     private ArrayList<task> tasks = new ArrayList<>();
     private ArrayList<String> users = new ArrayList<>();
     private boolean isLoggedIn = false;
-    private String currentUser = null;
+    private String currentUser;
 
     public void login(Scanner sc) {
         System.out.print("Enter username to login: ");
@@ -36,16 +36,57 @@ public class taskCompass {
         } else {
             System.out.println("Your Tasks:");
             for (int i = 0; i < tasks.size(); i++) {
-                System.out.println(tasks.get(i).getTaskName());
+                if(currentUser.equals(tasks.get(i).getTaskUser())) {
+                    System.out.println(tasks.get(i).getTaskName());
+                    
+                    //Testing line
+                    // System.out.println(tasks.get(i).getTaskName() + " " + tasks.get(i).getTaskUser() + " " + tasks.get(i).getTaskDescription()
+                    // + " " + tasks.get(i).getTaskPriority() + " " + tasks.get(i).getTaskStatus());
+                }
             }
         }
     }
 
     public void createTask(Scanner sc) {
+        //taskName
         System.out.println("Enter task name: ");
         String taskName = sc.nextLine();
 
-        task newTask = new task(tasks.size(), taskName, currentUser);
+        //taskDescription
+        System.out.println("Enter a description: ");
+        String taskDescription = sc.nextLine();
+
+        //taskPriority
+        boolean validPriority = false;
+        System.out.println("What is the priority? 3:High, 2:Medium, 1:Low : ");
+        String taskPriority = "";
+        while(!validPriority) {
+            String priorityValue = sc.nextLine();
+            switch (priorityValue) {
+                case "3":
+                case "High":
+                    taskPriority = "High";
+                    validPriority = true;
+                    break;
+                case "2":
+                case "Medium":
+                    taskPriority = "Medium";
+                    validPriority = true;
+                    break;
+                case "1":
+                case "Low":
+                    taskPriority = "Low";
+                    validPriority = true;
+                    break;
+                default:
+                    System.out.println("Invalid selection. Enter 3 for High priority,/n2 for Medium priority or 1 for Low priority: ");
+                    break;
+            }
+        }
+
+        //tastNotification
+
+        task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false);
 
         tasks.add(newTask);
 
