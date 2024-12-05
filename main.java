@@ -13,7 +13,7 @@ class Menu {
                 System.out.println("1. Login");
                 System.out.println("2. Sign Up");
                 System.out.println("3. Exit");
-                System.out.print("Enter your choice: ");
+                System.out.print("Enter your choice: \n");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
 
