@@ -49,13 +49,13 @@ class Menu {
 
                 switch (choice) {
                     case 1:
-                        tc.viewTasks();
+                        tc.viewTasks(scanner);
                         break;
                     case 2:
                         tc.createTask(scanner);
                         break;
                     case 3:
-                        // tc.editTask(scanner);
+                        tc.editTask(scanner);
                         break;
                     case 4:
                         viewNotifications();

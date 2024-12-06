@@ -49,6 +49,10 @@ public class task {
         return taskStatus;
     }
 
+    public int getTaskID() {
+        return taskID;
+    }
+
     public TaskType getTaskType() {
         return taskType;
     }
