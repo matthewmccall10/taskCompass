@@ -1,4 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Scanner;
+import java.time.LocalDate;
+
 
 class Menu {
 
@@ -75,7 +80,7 @@ class Menu {
                             tc.createTask(scanner);
                             break;
                         case 3:
-                            viewNotifications();
+                            viewNotifications(tc);
                             break;
                         case 4:
                             tc.setLoggedIn(false);
@@ -121,7 +126,48 @@ class Menu {
     }
     
 
-    private static void viewNotifications() {
-        System.out.println("You have no new notifications.");
+    private static void viewNotifications(taskCompass tc) {
+        // Combine all tasks from all lists into a single list
+        List<Object> allTasks = new ArrayList<>();
+        allTasks.addAll(tc.getTasks());
+        allTasks.addAll(tc.getRepeatTasks());
+        allTasks.addAll(tc.getPartnerTasks());
+        allTasks.addAll(tc.getComboTasks());
+    
+        // Sort tasks by priority (descending) and due date (ascending)
+        List<Object> sortedTasks = allTasks.stream()
+                .sorted((task1, task2) -> {
+                    // Compare priority
+                    int priority1 = tc.getTaskPriorityValue(task1);
+                    int priority2 = tc.getTaskPriorityValue(task2);
+                    if (priority1 != priority2) {
+                        return Integer.compare(priority2, priority1); // Descending order
+                    }
+    
+                    // Priorities are equal, compare due dates
+                    LocalDate endDate1 = tc.getTaskEndDate(task1);
+                    LocalDate endDate2 = tc.getTaskEndDate(task2);
+    
+                    if (endDate1 == null && endDate2 == null) return 0;
+                    if (endDate1 == null) return 1; // Null (no end date) goes last
+                    if (endDate2 == null) return -1;
+                    return endDate1.compareTo(endDate2); // Ascending order
+                })
+                .collect(Collectors.toList());
+    
+        // Display the sorted tasks
+        System.out.println("\nUpcoming Tasks:");
+        if (sortedTasks.isEmpty()) {
+            System.out.println("No tasks available.");
+        } else {
+            for (Object task : sortedTasks) {
+                String taskName = tc.getTaskName(task);
+                LocalDate endDate = tc.getTaskEndDate(task);
+                String endDateDisplay = (endDate == null) ? "No End Date" : endDate.toString();
+                String priority = tc.getTaskPriority(task);
+                System.out.println("- " + taskName + " | Priority: " + priority + " | End Date: " + endDateDisplay);
+            }
+        }
     }
+        
 }
