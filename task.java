@@ -9,7 +9,7 @@ public class task {
     public boolean taskStatus;
 
     public enum TaskType {
-        BASE, REPEAT, PARTNER, COMBO
+        BASE, REPEAT, PARTNER, COMBO, ERROR
     }
 
     private final TaskType taskType;
