@@ -11,24 +11,6 @@ public class repeatTask extends task {
         this.endDate = endDate;
     }
 
-    // Getters
-    public String getRepeatInterval() {
-        return repeatInterval;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    //Setters
-    public void setRepeatInterval(String repeatInterval) {
-        this.repeatInterval = repeatInterval;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
     // Calculate next occurrence
     public LocalDate getNextOccurrence(LocalDate currentDate) {
         switch (repeatInterval.toLowerCase()) {
@@ -47,4 +29,23 @@ public class repeatTask extends task {
     public boolean isRepeating(LocalDate currentDate) {
         return endDate == null || currentDate.isBefore(endDate) || currentDate.isEqual(endDate);
     }
+
+    // Getters
+    public String getRepeatInterval() {
+        return repeatInterval;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    //Setters
+    public void setRepeatInterval(String repeatInterval) {
+        this.repeatInterval = repeatInterval;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 }
+
