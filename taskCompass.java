@@ -174,19 +174,25 @@ public class taskCompass {
             }
         }
 
+        //Setup TaskType enum for constructor calls
+        task.TaskType type;
 
         //Constructor calls for event type
         if (checkRepeating == false && checkPartner == false) {
-            task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false);
+            type = task.TaskType.BASE;
+            task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false, type);
             tasks.add(newTask);
         } else if (checkRepeating == true && checkPartner == false) {
-            repeatTask newRepeatTask = new repeatTask(repeatTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, repeatInterval, endDate);
+            type = task.TaskType.REPEAT;
+            repeatTask newRepeatTask = new repeatTask(repeatTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, type, repeatInterval, endDate);
             repeatTasks.add(newRepeatTask);
         } else if (checkRepeating == false && checkPartner == true) {
-            partnerTask newPartnerTask = new partnerTask(partnerTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, partnerName);
+            type = task.TaskType.PARTNER;
+            partnerTask newPartnerTask = new partnerTask(partnerTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, type, partnerName);
             partnerTasks.add(newPartnerTask);
         } else if (checkRepeating == true && checkPartner == true) {
-            comboTask newComboTask = new comboTask(comboTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, repeatInterval, endDate, partnerName);
+            type = task.TaskType.COMBO;
+            comboTask newComboTask = new comboTask(comboTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, type, repeatInterval, endDate, partnerName);
             comboTasks.add(newComboTask);
         }
         

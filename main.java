@@ -80,9 +80,9 @@ class Menu {
                         if (tc.getRepeatTasks().isEmpty()) {
                             System.out.println("Error running test, create repeat task first...");
                         } else {
-                            System.out.println("\nTitle: " + tc.getRepeatTasks().get(0).getTaskName() + "\nDescription: " + 
-                            tc.getRepeatTasks().get(0).getTaskDescription() + "\nPriority: " + tc.getRepeatTasks().get(0).getTaskPriority() + "\nRepetition: " + 
-                            tc.getRepeatTasks().get(0).getRepeatInterval() + "\nEnd Date: " + tc.getRepeatTasks().get(0).getEndDate());
+                            System.out.println("Name: " + tc.getRepeatTasks().get(0).getTaskName() + "\nUser: " + tc.getRepeatTasks().get(0).getTaskUser() +
+                            "\nDescription: " + tc.getRepeatTasks().get(0).getTaskDescription() + "\nPriority " + tc.getRepeatTasks().get(0).getTaskPriority() +
+                            "\tInterval " + tc.getRepeatTasks().get(0).getRepeatInterval() + "\tEnd Date: " + tc.getRepeatTasks().get(0).getEndDate() + "\tType: " + tc.getRepeatTasks().get(0).getTaskType());
                         }
                         break;
                     default:

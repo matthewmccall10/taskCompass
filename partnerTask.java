@@ -1,8 +1,9 @@
 public class partnerTask extends task {
     private String partnerName;
 
-    public partnerTask(int taskID, String taskName, String userName, String taskDescription, String taskPriority, boolean taskStatus, String taskPartner) {
-        super(taskID, taskName, userName, taskDescription, taskPriority, taskStatus);
+    // Constructor
+    public partnerTask(int taskID, String taskName, String userName, String taskDescription, String taskPriority, boolean taskStatus, TaskType type, String taskPartner) {
+        super(taskID, taskName, userName, taskDescription, taskPriority, taskStatus, type);
         this.partnerName = taskPartner;
     }
 
