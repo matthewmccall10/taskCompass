@@ -38,28 +38,28 @@ public class taskCompass {
 
     // Menu Option for View Tasks
     public void viewTasks() {
-        if (tasks.isEmpty()) {
+        if (tasks.isEmpty() && repeatTasks.isEmpty() && partnerTasks.isEmpty() && comboTasks.isEmpty()) {
             System.out.println("No tasks available.");
         } else {
-            System.out.println("Your Tasks:");
+            System.out.println("Your associated tasks:");
             for (int i = 0; i < tasks.size(); i++) {
                 if(currentUser.equals(tasks.get(i).getTaskUser())) {
                     System.out.println(tasks.get(i).getTaskName());
-                    
-                    //Testing line
-                    // System.out.println(tasks.get(i).getTaskName() + " " + tasks.get(i).getTaskUser() + " " + tasks.get(i).getTaskDescription()
-                    // + " " + tasks.get(i).getTaskPriority() + " " + tasks.get(i).getTaskStatus());
-
-                //REPEATING TASK VIEW OPTION
-
-                // task t = tasks.get(i);
-                // System.out.print((i + 1) + ". " + t.getTaskName());
-                // if (t instanceof repeatTask) {
-                //     repeatTask rt = (repeatTask) t;
-                //     System.out.println(" (Repeats: " + rt.getRepeatInterval() +
-                //                        ", Ends: " + (rt.getEndDate() == null ? "Never" : rt.getEndDate()) + ")");
-                // } else {
-                //     System.out.println();
+                }
+            }
+            for (int i = 0; i < repeatTasks.size(); i++) {
+                if(currentUser.equals(repeatTasks.get(i).getTaskUser())) {
+                    System.out.println(repeatTasks.get(i).getTaskName());
+                }
+            }
+            for (int i = 0; i < partnerTasks.size(); i++) {
+                if(currentUser.equals(partnerTasks.get(i).getTaskUser()) || currentUser.equals(partnerTasks.get(i).getPartnerName())) {
+                    System.out.println(partnerTasks.get(i).getTaskName());
+                }
+            }
+            for (int i = 0; i < comboTasks.size(); i++) {
+                if(currentUser.equals(comboTasks.get(i).getTaskUser()) || currentUser.equals(comboTasks.get(i).getPartnerName())) {
+                    System.out.println(comboTasks.get(i).getTaskName());
                 }
             }
         }
@@ -136,8 +136,8 @@ public class taskCompass {
                 boolean selectingPartner = true;
 
                 while(selectingPartner) {
+                    System.out.println("Available partners:");
                     for (int i = 0; i < users.size(); i++ ) {
-                        System.out.println("Available partners:");
                         if (!users.get(i).equals(getCurrentUser())) {
                             System.out.print( users.get(i) + " ");
                         }
@@ -147,7 +147,7 @@ public class taskCompass {
                     System.out.println("Enter user to partner with: ");
                     String partnerSearch = sc.nextLine();
                     if (users.contains(partnerSearch)) {
-                        if (!partnerSearch.equals(getCurrentUser())) {
+                        if (partnerSearch.equals(getCurrentUser())) {
                             System.out.println("You cannot partner with yourself!\nPlease try again...");
                         } else {
                             selectingPartner = false;
@@ -193,6 +193,18 @@ public class taskCompass {
 
     public ArrayList<task> getTasks() {
         return tasks;
+    }
+
+    public ArrayList<repeatTask> getRepeatTasks() {
+        return repeatTasks;
+    }
+
+    public ArrayList<partnerTask> getPartnerTasks() {
+        return partnerTasks;
+    }
+
+    public ArrayList<comboTask> getComboTasks() {
+        return comboTasks;
     }
 
     //Setters

@@ -69,6 +69,12 @@ class Menu {
                         isRunning = false;
                         System.out.println("Exiting...");
                         break;
+                    case 69:
+                        System.out.println("Regular: " + tc.getTasks());
+                        System.out.println(" Repeat: " + tc.getRepeatTasks());
+                        System.out.println("Partner: " + tc.getPartnerTasks());
+                        System.out.println("  Combo: " + tc.getComboTasks());
+                        break;
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }                
