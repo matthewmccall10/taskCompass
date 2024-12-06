@@ -50,12 +50,11 @@ class Menu {
                     }
                 } else {
                     System.out.println("\nLogged In Menu:");
-                    System.out.println("\t1. View Tasks");
+                    System.out.println("\t1. View/Edit Tasks");
                     System.out.println("\t2. Create Task");
-                    System.out.println("\t3. Edit Task");
-                    System.out.println("\t4. View Notifications");
-                    System.out.println("\t5. Change User");
-                    System.out.println("\t6. Exit\n");
+                    System.out.println("\t3. View Notifications");
+                    System.out.println("\t4. Change User");
+                    System.out.println("\t5. Exit\n");
                     System.out.print("Enter your choice: ");
     
                     if (!scanner.hasNextInt()) {
@@ -70,22 +69,20 @@ class Menu {
                     switch (choice) {
                         case 1:
                             tc.viewTasks();
+                            // tc.editTask(scanner);
                             break;
                         case 2:
                             tc.createTask(scanner);
                             break;
                         case 3:
-                            // tc.editTask(scanner);
-                            break;
-                        case 4:
                             viewNotifications();
                             break;
-                        case 5:
+                        case 4:
                             tc.setLoggedIn(false);
                             tc.setCurrentUser(null);
                             System.out.println("\nLogged out. Returning to Main Menu...\n");
                             break;
-                        case 6:
+                        case 5:
                             isRunning = false;
                             System.out.println("\nExiting...");
                             break;

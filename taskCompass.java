@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class taskCompass {
@@ -61,7 +62,8 @@ public class taskCompass {
                         "\n\tDescription: " + getRepeatTasks().get(i).getTaskDescription() + 
                         "\n\tPriority: " + getRepeatTasks().get(i).getTaskPriority() + 
                         "\n\tRepetition: " + getRepeatTasks().get(i).getRepeatInterval() + 
-                        "\n\tEnd Date: " + getRepeatTasks().get(i).getEndDate());                }
+                        "\n\tEnd Date: " + getRepeatTasks().get(i).getEndDate());                
+                    }
             }
     // PARTNER TASK
         System.out.println("\nPARTNER TASKS: ");
@@ -70,8 +72,9 @@ public class taskCompass {
                     System.out.println( 
                         "\n\tTitle: " + getPartnerTasks().get(i).getTaskName() + 
                         "\n\tDescription: " + getPartnerTasks().get(i).getTaskDescription() + 
-                        "\n\tPartner Name: " + getComboTasks().get(i).getPartnerName() +
-                        "\n\tPriority: " + getPartnerTasks().get(i).getTaskPriority());                }
+                        "\n\tPartner Name: " + getPartnerTasks().get(i).getPartnerName() +
+                        "\n\tPriority: " + getPartnerTasks().get(i).getTaskPriority());                
+                    }
             }
     // COMBO TASK
         System.out.println("\nCOMBO TASKS: ");
@@ -137,14 +140,28 @@ public class taskCompass {
 
 
         if (isRepeatingTask.equals("yes") || isRepeatingTask.equals("y")) {
-            checkRepeating = true;
-            System.out.println("Enter repeat interval (daily, weekly, monthly): ");
-            repeatInterval = sc.nextLine();
-            
-            System.out.println("Enter end date (YYYY-MM-DD) or leave blank for no end date: ");
-            String endDateInput = sc.nextLine();
-            endDate = endDateInput.isEmpty() ? null : LocalDate.parse(endDateInput);
+    checkRepeating = true;
+    System.out.println("Enter repeat interval (daily, weekly, monthly): ");
+    repeatInterval = sc.nextLine();
+    
+    while (true) {
+        System.out.println("Enter end date (YYYY-MM-DD) or leave blank for no end date: ");
+        String endDateInput = sc.nextLine();
+        
+        if (endDateInput.isEmpty()) {
+            endDate = null;
+            break;
         }
+        
+        try {
+            endDate = LocalDate.parse(endDateInput);
+            break;
+        } catch (DateTimeParseException e) {
+            System.out.println("\nInvalid date format. Please enter the date in YYYY-MM-DD format.\n");
+        }
+    }
+}
+
 
         //PARTNER TASK CREATION
         System.out.println("Did you want this to be a partner task? (yes/no): ");
