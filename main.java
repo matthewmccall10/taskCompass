@@ -136,21 +136,19 @@ class Menu {
         // Sort tasks by priority (descending) and due date (ascending)
         List<Object> sortedTasks = allTasks.stream()
                 .sorted((task1, task2) -> {
-                    // Compare priority
                     int priority1 = tc.getTaskPriorityValue(task1);
                     int priority2 = tc.getTaskPriorityValue(task2);
                     if (priority1 != priority2) {
-                        return Integer.compare(priority2, priority1); // Descending order
+                        return Integer.compare(priority2, priority1);
                     }
     
-                    // Priorities are equal, compare due dates
                     LocalDate endDate1 = tc.getTaskEndDate(task1);
                     LocalDate endDate2 = tc.getTaskEndDate(task2);
     
                     if (endDate1 == null && endDate2 == null) return 0;
-                    if (endDate1 == null) return 1; // Null (no end date) goes last
+                    if (endDate1 == null) return 1;
                     if (endDate2 == null) return -1;
-                    return endDate1.compareTo(endDate2); // Ascending order
+                    return endDate1.compareTo(endDate2);
                 })
                 .collect(Collectors.toList());
     

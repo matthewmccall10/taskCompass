@@ -119,14 +119,13 @@ public class taskCompass {
     } //END View tasks method
 
     // START View Notifications method 
-        // Helper method to get the end date of any task
         public LocalDate getTaskEndDate(Object task) {
             if (task instanceof repeatTask) {
                 return ((repeatTask) task).getEndDate();
             } else if (task instanceof comboTask) {
                 return ((comboTask) task).getEndDate();
             }
-            return null; // Tasks like regular or partner do not have an end date
+            return null;
         }
         
         public String getTaskName(Object task) {
@@ -161,7 +160,7 @@ public class taskCompass {
                 case "Low":
                     return 1;
                 default:
-                    return 0; // Unknown priority
+                    return 0;
             }
         }
         public String getTaskPriority(Object task) {
@@ -177,9 +176,6 @@ public class taskCompass {
             return "Unknown";
         }
         
-        
-        
-
     // END View Notifications method
 
     // START Create task method
