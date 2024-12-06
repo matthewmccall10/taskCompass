@@ -1,12 +1,17 @@
 import java.util.Scanner;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class taskCompass {
     private ArrayList<task> tasks = new ArrayList<>();
+    private ArrayList<repeatTask> repeatTasks = new ArrayList<>();
+    private ArrayList<partnerTask> partnerTasks = new ArrayList<>();
+    private ArrayList<comboTask> comboTasks = new ArrayList<>();
     private ArrayList<String> users = new ArrayList<>();
     private boolean isLoggedIn = false;
     private String currentUser;
 
+    // Menu Option for Login
     public void login(Scanner sc) {
         System.out.print("Enter username to login: ");
         String username = sc.nextLine();
@@ -15,10 +20,11 @@ public class taskCompass {
             isLoggedIn = true;
             System.out.println("Logged in as " + currentUser);
         } else {
-            System.out.println("Username not found. Please sign up first.");
+            System.out.println("Username not found. Please sign up first.\n");
         }
     }
 
+    // Menu Option for Signup
     public void signUp(Scanner sc) {
         System.out.print("Enter a new username: ");
         String newUser = sc.nextLine();
@@ -26,27 +32,40 @@ public class taskCompass {
             System.out.println("Username already exists. Please try a different username.");
         } else {
             users.add(newUser);
-            System.out.println("User registered successfully! You can now log in.");
+            System.out.println("User registered successfully! You can now log in.\n");
         }
     }
 
+    // Menu Option for View Tasks
     public void viewTasks() {
-        if (tasks.isEmpty()) {
+        if (tasks.isEmpty() && repeatTasks.isEmpty() && partnerTasks.isEmpty() && comboTasks.isEmpty()) {
             System.out.println("No tasks available.");
         } else {
-            System.out.println("Your Tasks:");
+            System.out.println("Your associated tasks:");
             for (int i = 0; i < tasks.size(); i++) {
                 if(currentUser.equals(tasks.get(i).getTaskUser())) {
                     System.out.println(tasks.get(i).getTaskName());
-                    
-                    //Testing line
-                    // System.out.println(tasks.get(i).getTaskName() + " " + tasks.get(i).getTaskUser() + " " + tasks.get(i).getTaskDescription()
-                    // + " " + tasks.get(i).getTaskPriority() + " " + tasks.get(i).getTaskStatus());
+                }
+            }
+            for (int i = 0; i < repeatTasks.size(); i++) {
+                if(currentUser.equals(repeatTasks.get(i).getTaskUser())) {
+                    System.out.println(repeatTasks.get(i).getTaskName());
+                }
+            }
+            for (int i = 0; i < partnerTasks.size(); i++) {
+                if(currentUser.equals(partnerTasks.get(i).getTaskUser()) || currentUser.equals(partnerTasks.get(i).getPartnerName())) {
+                    System.out.println(partnerTasks.get(i).getTaskName());
+                }
+            }
+            for (int i = 0; i < comboTasks.size(); i++) {
+                if(currentUser.equals(comboTasks.get(i).getTaskUser()) || currentUser.equals(comboTasks.get(i).getPartnerName())) {
+                    System.out.println(comboTasks.get(i).getTaskName());
                 }
             }
         }
     }
 
+    // Menu Option for Create Task
     public void createTask(Scanner sc) {
         //taskName
         System.out.println("Enter task name: ");
@@ -84,12 +103,78 @@ public class taskCompass {
             }
         }
 
-        //tastNotification
+        //REPEATING TASK CREATION
+        System.out.println("Is this a repeating task? (yes/no): ");
+        boolean checkRepeating = false;
+        String isRepeatingTask = sc.nextLine().toLowerCase();
 
-        task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false);
+        String repeatInterval = "Error";
+        LocalDate endDate = LocalDate.now();
 
-        tasks.add(newTask);
 
+        if (isRepeatingTask.equals("yes") || isRepeatingTask.equals("y")) {
+            checkRepeating = true;
+            System.out.println("Enter repeat interval (daily, weekly, monthly): ");
+            repeatInterval = sc.nextLine();
+            
+            System.out.println("Enter end date (YYYY-MM-DD) or leave blank for no end date: ");
+            String endDateInput = sc.nextLine();
+            endDate = endDateInput.isEmpty() ? null : LocalDate.parse(endDateInput);
+        }
+
+        //PARTNER TASK CREATION
+        System.out.println("Did you want this to be a partner task? (yes/no): ");
+        boolean checkPartner = false;
+        String isPartnerTask = sc.nextLine().toLowerCase();
+        String partnerName = "Error";
+
+        if (isPartnerTask.equals("yes") || isPartnerTask.equals("y")) {
+            if (users.size() < 2) {
+                System.out.println("Not enough registered users, reverting to non-partner task.");
+            } else {
+                checkPartner = true;
+                boolean selectingPartner = true;
+
+                while(selectingPartner) {
+                    System.out.println("Available partners:");
+                    for (int i = 0; i < users.size(); i++ ) {
+                        if (!users.get(i).equals(getCurrentUser())) {
+                            System.out.print( users.get(i) + " ");
+                        }
+                        System.out.println("\n");
+                    }
+
+                    System.out.println("Enter user to partner with: ");
+                    String partnerSearch = sc.nextLine();
+                    if (users.contains(partnerSearch)) {
+                        if (partnerSearch.equals(getCurrentUser())) {
+                            System.out.println("You cannot partner with yourself!\nPlease try again...");
+                        } else {
+                            selectingPartner = false;
+                            partnerName = partnerSearch;
+                        }
+                    }
+                }
+                
+            }
+        }
+
+
+        //Regular task  call
+        if (checkRepeating == false && checkPartner == false) {
+            task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false);
+            tasks.add(newTask);
+        } else if (checkRepeating == true && checkPartner == false) {
+            repeatTask newRepeatTask = new repeatTask(repeatTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, repeatInterval, endDate);
+            repeatTasks.add(newRepeatTask);
+        } else if (checkRepeating == false && checkPartner == true) {
+            partnerTask newPartnerTask = new partnerTask(partnerTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, partnerName);
+            partnerTasks.add(newPartnerTask);
+        } else if (checkRepeating == true && checkPartner == true) {
+            comboTask newComboTask = new comboTask(comboTasks.size(), taskName, currentUser, taskDescription, taskPriority, false, repeatInterval, endDate, partnerName);
+            comboTasks.add(newComboTask);
+        }
+        
         System.out.println("Task created successfully!");
     }
 
@@ -110,6 +195,18 @@ public class taskCompass {
         return tasks;
     }
 
+    public ArrayList<repeatTask> getRepeatTasks() {
+        return repeatTasks;
+    }
+
+    public ArrayList<partnerTask> getPartnerTasks() {
+        return partnerTasks;
+    }
+
+    public ArrayList<comboTask> getComboTasks() {
+        return comboTasks;
+    }
+
     //Setters
     public void setLoggedIn(boolean input) {
         this.isLoggedIn = input;
@@ -119,5 +216,3 @@ public class taskCompass {
         this.currentUser = input;
     }
 }
-
-

@@ -39,10 +39,11 @@ class Menu {
                 System.out.println("\nLogged In Menu:");
                 System.out.println("1. View Tasks");
                 System.out.println("2. Create Task");
-                System.out.println("3. View Notifications");
-                System.out.println("4. Change User");
-                System.out.println("5. Exit");
-                System.out.print("Enter your choice: ");
+                System.out.println("3. Edit Task");
+                System.out.println("4. View Notifications");
+                System.out.println("5. Change User");
+                System.out.println("6. Exit\n");
+                System.out.print("Enter your choice: \n");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
 
@@ -54,26 +55,35 @@ class Menu {
                         tc.createTask(scanner);
                         break;
                     case 3:
-                        viewNotifications();
+                        // tc.editTask(scanner);
                         break;
                     case 4:
-                        tc.setLoggedIn(false);
-                        tc.setCurrentUser(null);
-                        System.out.println("Logged out. Returning to Main Menu...");
+                        viewNotifications();
                         break;
                     case 5:
+                        tc.setLoggedIn(false);
+                        tc.setCurrentUser(null);
+                        System.out.println("Logged out. Returning to Main Menu...\n");
+                        break;
+                    case 6:
                         isRunning = false;
                         System.out.println("Exiting...");
                         break;
+                    case 69:
+                        System.out.println("Regular: " + tc.getTasks());
+                        System.out.println(" Repeat: " + tc.getRepeatTasks());
+                        System.out.println("Partner: " + tc.getPartnerTasks());
+                        System.out.println("  Combo: " + tc.getComboTasks());
+                        break;
                     default:
                         System.out.println("Invalid choice. Please try again.");
-                }
+                }                
             }
         }
         scanner.close();
     }
 
     private static void viewNotifications() {
-        System.out.println("You have no new notifications."); // Placeholder for notifications feature
+        System.out.println("You have no new notifications.");
     }
 }
