@@ -77,7 +77,13 @@ class Menu {
                         System.out.println("  Combo: " + tc.getComboTasks());
                         break;
                     case 420:
-
+                        if (tc.getRepeatTasks().isEmpty()) {
+                            System.out.println("Error running test, create repeat task first...");
+                        } else {
+                            System.out.println(tc.getRepeatTasks().get(0).getTaskName() + " " + tc.getRepeatTasks().get(0).getTaskUser() + " " + 
+                            tc.getRepeatTasks().get(0).getTaskDescription() + " " + tc.getRepeatTasks().get(0).getTaskPriority() + " " + 
+                            tc.getRepeatTasks().get(0).getRepeatInterval() + " " + tc.getRepeatTasks().get(0).getEndDate());
+                        }
                         break;
                     default:
                         System.out.println("Invalid choice. Please try again.");
