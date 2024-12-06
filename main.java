@@ -69,11 +69,15 @@ class Menu {
                         isRunning = false;
                         System.out.println("Exiting...");
                         break;
+                    //Test cases, delete before upload (hopefully)
                     case 69:
                         System.out.println("Regular: " + tc.getTasks());
                         System.out.println(" Repeat: " + tc.getRepeatTasks());
                         System.out.println("Partner: " + tc.getPartnerTasks());
                         System.out.println("  Combo: " + tc.getComboTasks());
+                        break;
+                    case 420:
+
                         break;
                     default:
                         System.out.println("Invalid choice. Please try again.");

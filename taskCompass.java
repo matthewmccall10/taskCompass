@@ -11,7 +11,7 @@ public class taskCompass {
     private boolean isLoggedIn = false;
     private String currentUser;
 
-    // Menu Option for Login
+    //START Login method
     public void login(Scanner sc) {
         System.out.print("Enter username to login: ");
         String username = sc.nextLine();
@@ -22,9 +22,9 @@ public class taskCompass {
         } else {
             System.out.println("Username not found. Please sign up first.\n");
         }
-    }
+    } //END Login method
 
-    // Menu Option for Signup
+    // START Signup method
     public void signUp(Scanner sc) {
         System.out.print("Enter a new username: ");
         String newUser = sc.nextLine();
@@ -34,9 +34,9 @@ public class taskCompass {
             users.add(newUser);
             System.out.println("User registered successfully! You can now log in.\n");
         }
-    }
+    } //END Signup method
 
-    // Menu Option for View Tasks
+    //START View tasks method
     public void viewTasks() {
         if (tasks.isEmpty() && repeatTasks.isEmpty() && partnerTasks.isEmpty() && comboTasks.isEmpty()) {
             System.out.println("No tasks available.");
@@ -63,9 +63,9 @@ public class taskCompass {
                 }
             }
         }
-    }
+    } //END View tasks method
 
-    // Menu Option for Create Task
+    // START Create task method
     public void createTask(Scanner sc) {
         //taskName
         System.out.println("Enter task name: ");
@@ -160,7 +160,7 @@ public class taskCompass {
         }
 
 
-        //Regular task  call
+        //Constructor calls for event type
         if (checkRepeating == false && checkPartner == false) {
             task newTask = new task(tasks.size(), taskName, currentUser, taskDescription, taskPriority, false);
             tasks.add(newTask);
@@ -176,7 +176,7 @@ public class taskCompass {
         }
         
         System.out.println("Task created successfully!");
-    }
+    } //END Create task method
 
     //Getters
     public boolean getLoggedIn() {
