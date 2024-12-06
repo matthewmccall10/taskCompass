@@ -42,25 +42,40 @@ public class taskCompass {
             System.out.println("No tasks available.");
         } else {
             System.out.println("Your associated tasks:");
+    // REGULAR TASK
             for (int i = 0; i < tasks.size(); i++) {
                 if(currentUser.equals(tasks.get(i).getTaskUser())) {
-                    System.out.println(tasks.get(i).getTaskName());
+                    System.out.println("\nREGULAR TASKS: " + "\n\tTitle: " + getTasks().get(0).getTaskName() + 
+                    "\n\tDescription: " + getTasks().get(0).getTaskDescription() + 
+                    "\n\tPriority: " + getTasks().get(0).getTaskPriority());
                 }
             }
+    // REPEATING TASK
             for (int i = 0; i < repeatTasks.size(); i++) {
                 if(currentUser.equals(repeatTasks.get(i).getTaskUser())) {
-                    System.out.println(repeatTasks.get(i).getTaskName());
-                }
+                    System.out.println("\nREPEATING TASKS: " + "\n\tTitle: " + getRepeatTasks().get(0).getTaskName() + 
+                    "\n\tDescription: " + getRepeatTasks().get(0).getTaskDescription() + 
+                    "\n\tPriority: " + getRepeatTasks().get(0).getTaskPriority() + 
+                    "\n\tRepetition: " + getRepeatTasks().get(0).getRepeatInterval() + 
+                    "\n\tEnd Date: " + getRepeatTasks().get(0).getEndDate());                }
             }
+    // PARTNER TASK
             for (int i = 0; i < partnerTasks.size(); i++) {
                 if(currentUser.equals(partnerTasks.get(i).getTaskUser()) || currentUser.equals(partnerTasks.get(i).getPartnerName())) {
-                    System.out.println(partnerTasks.get(i).getTaskName());
-                }
+                    System.out.println("\nPARTNER TASKS: " + "\n\tTitle: " + getPartnerTasks().get(0).getTaskName() + 
+                    "\n\tDescription: " + getPartnerTasks().get(0).getTaskDescription() + 
+                    "\n\tPartner Name: " + getComboTasks().get(0).getPartnerName() +
+                    "\n\tPriority: " + getPartnerTasks().get(0).getTaskPriority());                }
             }
+    // COMBO TASK
             for (int i = 0; i < comboTasks.size(); i++) {
                 if(currentUser.equals(comboTasks.get(i).getTaskUser()) || currentUser.equals(comboTasks.get(i).getPartnerName())) {
-                    System.out.println(comboTasks.get(i).getTaskName());
-                }
+                    System.out.println("\nCOMBO TASKS: " + "\n\tTitle: " + getComboTasks().get(0).getTaskName() + 
+                    "\n\tDescription: " + getComboTasks().get(0).getTaskDescription() +
+                    "\n\tPartner Name: " + getComboTasks().get(0).getPartnerName() + 
+                    "\n\tPriority: " + getComboTasks().get(0).getTaskPriority() + 
+                    "\n\tRepetition: " + getComboTasks().get(0).getRepeatInterval() + 
+                    "\n\tEnd Date: " + getComboTasks().get(0).getEndDate());                }
             }
         }
     } //END View tasks method
