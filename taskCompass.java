@@ -13,24 +13,24 @@ public class taskCompass {
 
     //START Login method
     public void login(Scanner sc) {
-        System.out.print("Enter username to login: ");
+        System.out.print("\nEnter username to login: ");
         String username = sc.nextLine();
         if (users.contains(username)) {
             currentUser = username;
             isLoggedIn = true;
             System.out.println("Logged in as " + currentUser);
         } else {
-            System.out.println("Username not found. Please sign up first.\n");
+            System.out.println("\nUsername not found. Please sign up first.\n");
         }
     }
     //END Login method
 
     // START Signup method
     public void signUp(Scanner sc) {
-        System.out.print("Enter a new username: ");
+        System.out.print("\nEnter a new username: ");
         String newUser = sc.nextLine();
         if (users.contains(newUser)) {
-            System.out.println("Username already exists. Please try a different username.");
+            System.out.println("\nUsername already exists. Please try a different username.");
         } else {
             users.add(newUser);
             System.out.println("User registered successfully! You can now log in.\n");
@@ -41,69 +41,82 @@ public class taskCompass {
     //START View tasks method
     public void viewTasks(Scanner sc) {
         if (tasks.isEmpty() && repeatTasks.isEmpty() && partnerTasks.isEmpty() && comboTasks.isEmpty()) {
-            System.out.println("No tasks available.");
+            System.out.println("\nNo tasks available.");
         } else {
             ArrayList<taskEditInfo> taskInfoList = new ArrayList<>();
 
-            System.out.println("Your associated tasks:");
-        // REGULAR TASK
-            for (int i = 0; i < tasks.size(); i++) {
-                if(currentUser.equals(tasks.get(i).getTaskUser())) {
-                    taskInfoList.add(new taskEditInfo(tasks.get(i).getTaskID(), tasks.get(i).getTaskType()));
+            System.out.println("\nYour associated tasks:");
 
-                    System.out.println("\nREGULAR TASKS: " + 
-                    "\n\tTitle: " + getTasks().get(0).getTaskName() + 
-                    "\n\tDescription: " + getTasks().get(0).getTaskDescription() + 
-                    "\n\tPriority: " + getTasks().get(0).getTaskPriority());
+            // REGULAR TASK
+            System.out.println("\nREGULAR TASKS: ");
+                for (int i = 0; i < tasks.size(); i++) {
+                    if(currentUser.equals(tasks.get(i).getTaskUser())) {
+                        taskInfoList.add(new taskEditInfo(tasks.get(i).getTaskID(), tasks.get(i).getTaskType()));
+                        
+                        System.out.println( 
+                            "\n\tTitle: " + getTasks().get(i).getTaskName() + 
+                            "\n\tDescription: " + getTasks().get(i).getTaskDescription() + 
+                            "\n\tPriority: " + getTasks().get(i).getTaskPriority());
+                    }
                 }
-            }
-        // REPEATING TASK
-            for (int i = 0; i < repeatTasks.size(); i++) {
-                if(currentUser.equals(repeatTasks.get(i).getTaskUser())) {
-                    taskInfoList.add(new taskEditInfo(repeatTasks.get(i).getTaskID(), repeatTasks.get(i).getTaskType()));
 
-                    System.out.println("\nREPEATING TASKS: " + 
-                    "\n\tTitle: " + getRepeatTasks().get(0).getTaskName() + 
-                    "\n\tDescription: " + getRepeatTasks().get(0).getTaskDescription() + 
-                    "\n\tPriority: " + getRepeatTasks().get(0).getTaskPriority() + 
-                    "\n\tRepetition: " + getRepeatTasks().get(0).getRepeatInterval() + 
-                    "\n\tEnd Date: " + getRepeatTasks().get(0).getEndDate());                }
-            }
-        // PARTNER TASK
-            for (int i = 0; i < partnerTasks.size(); i++) {
-                if(currentUser.equals(partnerTasks.get(i).getTaskUser()) || currentUser.equals(partnerTasks.get(i).getPartnerName())) {
-                    taskInfoList.add(new taskEditInfo(partnerTasks.get(i).getTaskID(), partnerTasks.get(i).getTaskType()));
+            // REPEATING TASK
+            System.out.println("\nREPEATING TASKS: ");
+                for (int i = 0; i < repeatTasks.size(); i++) {
+                    if(currentUser.equals(repeatTasks.get(i).getTaskUser())) {
+                        taskInfoList.add(new taskEditInfo(repeatTasks.get(i).getTaskID(), repeatTasks.get(i).getTaskType()));
 
-                    System.out.println("\nPARTNER TASKS: " + 
-                    "\n\tTitle: " + getPartnerTasks().get(0).getTaskName() + 
-                    "\n\tDescription: " + getPartnerTasks().get(0).getTaskDescription() + 
-                    "\n\tPartner Name: " + getComboTasks().get(0).getPartnerName() +
-                    "\n\tPriority: " + getPartnerTasks().get(0).getTaskPriority());                }
-            }
-        // COMBO TASK
-            for (int i = 0; i < comboTasks.size(); i++) {
-                if(currentUser.equals(comboTasks.get(i).getTaskUser()) || currentUser.equals(comboTasks.get(i).getPartnerName())) {
-                    taskInfoList.add(new taskEditInfo(comboTasks.get(i).getTaskID(), comboTasks.get(i).getTaskType()));
+                        System.out.println( 
+                            "\n\tTitle: " + getRepeatTasks().get(i).getTaskName() + 
+                            "\n\tDescription: " + getRepeatTasks().get(i).getTaskDescription() + 
+                            "\n\tPriority: " + getRepeatTasks().get(i).getTaskPriority() + 
+                            "\n\tRepetition: " + getRepeatTasks().get(i).getRepeatInterval() + 
+                            "\n\tEnd Date: " + getRepeatTasks().get(i).getEndDate());                
+                    }
+                }
+            
 
-                    System.out.println("\nCOMBO TASKS: " + 
-                    "\n\tTitle: " + getComboTasks().get(0).getTaskName() + 
-                    "\n\tDescription: " + getComboTasks().get(0).getTaskDescription() +
-                    "\n\tPartner Name: " + getComboTasks().get(0).getPartnerName() + 
-                    "\n\tPriority: " + getComboTasks().get(0).getTaskPriority() + 
-                    "\n\tRepetition: " + getComboTasks().get(0).getRepeatInterval() + 
-                    "\n\tEnd Date: " + getComboTasks().get(0).getEndDate());                }
-            }
+            // PARTNER TASK
+            System.out.println("\nPARTNER TASKS: ");
+                for (int i = 0; i < partnerTasks.size(); i++) {
+                    if(currentUser.equals(partnerTasks.get(i).getTaskUser()) || currentUser.equals(partnerTasks.get(i).getPartnerName())) {
+                        taskInfoList.add(new taskEditInfo(partnerTasks.get(i).getTaskID(), partnerTasks.get(i).getTaskType()));
 
-            System.out.println("Enter a task's title to edit that task, or enter nothing to return to the main menu.");
-            String userSelection = sc.nextLine();
-            if(!userSelection.isEmpty()) {
+                        System.out.println( 
+                            "\n\tTitle: " + getPartnerTasks().get(i).getTaskName() + 
+                            "\n\tDescription: " + getPartnerTasks().get(i).getTaskDescription() + 
+                            "\n\tPartner Name: " + getComboTasks().get(i).getPartnerName() +
+                            "\n\tPriority: " + getPartnerTasks().get(i).getTaskPriority());
+                    }
+                }
+
+            // COMBO TASK
+            System.out.println("\nCOMBO TASKS: ");
+                for (int i = 0; i < comboTasks.size(); i++) {
+                    if(currentUser.equals(comboTasks.get(i).getTaskUser()) || currentUser.equals(comboTasks.get(i).getPartnerName())) {
+                        taskInfoList.add(new taskEditInfo(comboTasks.get(i).getTaskID(), comboTasks.get(i).getTaskType()));
+
+                        System.out.println( 
+                            "\n\tTitle: " + getComboTasks().get(i).getTaskName() + 
+                            "\n\tDescription: " + getComboTasks().get(i).getTaskDescription() +
+                            "\n\tPartner Name: " + getComboTasks().get(i).getPartnerName() + 
+                            "\n\tPriority: " + getComboTasks().get(i).getTaskPriority() + 
+                            "\n\tRepetition: " + getComboTasks().get(i).getRepeatInterval() + 
+                            "\n\tEnd Date: " + getComboTasks().get(i).getEndDate());                
+                    }
+                }
+        }
+
+        System.out.println("Enter a task's title to edit that task, or enter nothing to return to the main menu.");
+        String userSelection = sc.nextLine();
+        if(!userSelection.isEmpty()) {
 
 
 
-                viewTasks(sc);
-            }
+            viewTasks(sc);
         }
     }
+
     //END View tasks method
 
     // START Create task method
