@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class taskCompass {
@@ -115,8 +116,71 @@ public class taskCompass {
                 viewTasks(sc);
             }
         }
-    }
-    //END View tasks method
+    } //END View tasks method
+
+    // START View Notifications method 
+        // Helper method to get the end date of any task
+        public LocalDate getTaskEndDate(Object task) {
+            if (task instanceof repeatTask) {
+                return ((repeatTask) task).getEndDate();
+            } else if (task instanceof comboTask) {
+                return ((comboTask) task).getEndDate();
+            }
+            return null; // Tasks like regular or partner do not have an end date
+        }
+        
+        public String getTaskName(Object task) {
+            if (task instanceof task) {
+                return ((task) task).getTaskName();
+            } else if (task instanceof repeatTask) {
+                return ((repeatTask) task).getTaskName();
+            } else if (task instanceof partnerTask) {
+                return ((partnerTask) task).getTaskName();
+            } else if (task instanceof comboTask) {
+                return ((comboTask) task).getTaskName();
+            }
+            return "Unknown Task";
+        }
+        public int getTaskPriorityValue(Object task) {
+            String priority = "";
+            if (task instanceof task) {
+                priority = ((task) task).getTaskPriority();
+            } else if (task instanceof repeatTask) {
+                priority = ((repeatTask) task).getTaskPriority();
+            } else if (task instanceof partnerTask) {
+                priority = ((partnerTask) task).getTaskPriority();
+            } else if (task instanceof comboTask) {
+                priority = ((comboTask) task).getTaskPriority();
+            }
+        
+            switch (priority) {
+                case "High":
+                    return 3;
+                case "Medium":
+                    return 2;
+                case "Low":
+                    return 1;
+                default:
+                    return 0; // Unknown priority
+            }
+        }
+        public String getTaskPriority(Object task) {
+            if (task instanceof task) {
+                return ((task) task).getTaskPriority();
+            } else if (task instanceof repeatTask) {
+                return ((repeatTask) task).getTaskPriority();
+            } else if (task instanceof partnerTask) {
+                return ((partnerTask) task).getTaskPriority();
+            } else if (task instanceof comboTask) {
+                return ((comboTask) task).getTaskPriority();
+            }
+            return "Unknown";
+        }
+        
+        
+        
+
+    // END View Notifications method
 
     // START Create task method
     public void createTask(Scanner sc) {
@@ -151,7 +215,7 @@ public class taskCompass {
                     validPriority = true;
                     break;
                 default:
-                    System.out.println("Invalid selection. Enter 3 for High priority,/n2 for Medium priority or 1 for Low priority: ");
+                    System.out.println("Invalid selection. Enter 3 for High Priority, 2 for Medium Priority, or 1 for Low Priority: ");
                     break;
             }
         }
@@ -167,13 +231,46 @@ public class taskCompass {
 
         if (isRepeatingTask.equals("yes") || isRepeatingTask.equals("y")) {
             checkRepeating = true;
-            System.out.println("Enter repeat interval (daily, weekly, monthly): ");
-            repeatInterval = sc.nextLine();
-            
-            System.out.println("Enter end date (YYYY-MM-DD) or leave blank for no end date: ");
-            String endDateInput = sc.nextLine();
-            endDate = endDateInput.isEmpty() ? null : LocalDate.parse(endDateInput);
+        
+            // Validate repeat interval
+            while (true) {
+                System.out.println("Enter repeat interval (daily, weekly, monthly) or use abbreviations (d, w, m): ");
+                repeatInterval = sc.nextLine().toLowerCase();
+        
+                if (repeatInterval.equals("daily") || repeatInterval.equals("d")) {
+                    repeatInterval = "daily";
+                    break;
+                } else if (repeatInterval.equals("weekly") || repeatInterval.equals("w")) {
+                    repeatInterval = "weekly";
+                    break;
+                } else if (repeatInterval.equals("monthly") || repeatInterval.equals("m")) {
+                    repeatInterval = "monthly";
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter 'daily', 'weekly', 'monthly' or their abbreviations ('d', 'w', 'm').");
+                }
+            }
+        
+            // Validate end date
+            while (true) {
+                System.out.println("Enter end date (YYYY-MM-DD) or leave blank for no end date: ");
+                String endDateInput = sc.nextLine();
+        
+                if (endDateInput.isEmpty()) {
+                    endDate = null;
+                    break;
+                }
+        
+                try {
+                    endDate = LocalDate.parse(endDateInput);
+                    break;
+                } catch (DateTimeParseException e) {
+                    System.out.println("\nInvalid date format. Please enter the date in YYYY-MM-DD format.\n");
+                }
+            }
         }
+        
+
 
         //PARTNER TASK CREATION
         System.out.println("Did you want this to be a partner task? (yes/no): ");
