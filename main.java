@@ -24,7 +24,7 @@ class Menu {
                     }
                     
                     if (!input.matches("\\d+")) {
-                        System.out.println("\nInvalid input. Please enter a number.\n");
+                        System.out.println("\nInvalid input. Please enter a valid number.\n");
                         continue;
                     }
                     
@@ -56,7 +56,7 @@ class Menu {
                     System.out.println("\t4. View Notifications");
                     System.out.println("\t5. Change User");
                     System.out.println("\t6. Exit\n");
-                    System.out.print("Enter your choice: \n");
+                    System.out.print("Enter your choice: ");
     
                     if (!scanner.hasNextInt()) {
                         System.out.println("\nInvalid input. Please enter a number.\n");
