@@ -189,7 +189,7 @@ public class taskCompass {
                     validPriority = true;
                     break;
                 default:
-                    System.out.println("Invalid selection. Enter 3 for High priority,/n2 for Medium priority or 1 for Low priority: ");
+                    System.out.println("Invalid selection. Enter 3 for High Priority, 2 for Medium Priority, or 1 for Low Priority: ");
                     break;
             }
         }
