@@ -8,10 +8,16 @@ public class task {
     public String taskPriority;
     public boolean taskStatus;
 
+    public enum TaskType {
+        BASE, REPEAT, PARTNER, COMBO
+    }
+
+    private final TaskType taskType;
+
     //More need to be added
     
     //Constructor
-    public task (int nextID, String name, String user, String description, String priority, boolean status) {
+    public task (int nextID, String name, String user, String description, String priority, boolean status, TaskType type) {
         this.taskID = nextID;
         this.taskName = name;
         this.taskUser = user;
@@ -19,7 +25,7 @@ public class task {
         // this.taskDate = date;
         this.taskPriority = priority;
         this.taskStatus = status;
-        
+        this.taskType = type;
     }
 
     //Getters
@@ -41,6 +47,10 @@ public class task {
 
     public boolean getTaskStatus() {
         return taskStatus;
+    }
+
+    public TaskType getTaskType() {
+        return taskType;
     }
 
     //Setters

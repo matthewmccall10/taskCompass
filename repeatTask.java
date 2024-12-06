@@ -5,8 +5,8 @@ public class repeatTask extends task {
     private LocalDate endDate; // The date the repetition ends
 
     // Constructor
-    public repeatTask(int taskID, String taskName, String userName, String description, String priority, boolean status, String repeatInterval, LocalDate endDate) {
-        super(taskID, taskName, userName, description, priority, status);
+    public repeatTask(int taskID, String taskName, String userName, String description, String priority, boolean status, TaskType type, String repeatInterval, LocalDate endDate) {
+        super(taskID, taskName, userName, description, priority, status, type);
         this.repeatInterval = repeatInterval;
         this.endDate = endDate;
     }
