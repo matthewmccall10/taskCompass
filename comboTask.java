@@ -6,8 +6,8 @@ public class comboTask extends task {
     private String comboPartnerName;
     
     // Constructor
-    public comboTask(int taskID, String taskName, String userName, String description, String priority, boolean status, String repeatInterval, LocalDate endDate, String taskPartner) {
-        super(taskID, taskName, userName, description, priority, status);
+    public comboTask(int taskID, String taskName, String userName, String description, String priority, boolean status, TaskType type, String repeatInterval, LocalDate endDate, String taskPartner) {
+        super(taskID, taskName, userName, description, priority, status, type);
         this.comboRepeatInterval = repeatInterval;
         this.comboEndDate = endDate;
         this.comboPartnerName = taskPartner;

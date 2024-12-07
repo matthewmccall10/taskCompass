@@ -5,27 +5,9 @@ public class repeatTask extends task {
     private LocalDate endDate; // The date the repetition ends
 
     // Constructor
-    public repeatTask(int taskID, String taskName, String userName, String description, String priority, boolean status, String repeatInterval, LocalDate endDate) {
-        super(taskID, taskName, userName, description, priority, status);
+    public repeatTask(int taskID, String taskName, String userName, String description, String priority, boolean status, TaskType type, String repeatInterval, LocalDate endDate) {
+        super(taskID, taskName, userName, description, priority, status, type);
         this.repeatInterval = repeatInterval;
-        this.endDate = endDate;
-    }
-
-    // Getters
-    public String getRepeatInterval() {
-        return repeatInterval;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    //Setters
-    public void setRepeatInterval(String repeatInterval) {
-        this.repeatInterval = repeatInterval;
-    }
-
-    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -47,4 +29,23 @@ public class repeatTask extends task {
     public boolean isRepeating(LocalDate currentDate) {
         return endDate == null || currentDate.isBefore(endDate) || currentDate.isEqual(endDate);
     }
+
+    // Getters
+    public String getRepeatInterval() {
+        return repeatInterval;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    //Setters
+    public void setRepeatInterval(String repeatInterval) {
+        this.repeatInterval = repeatInterval;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 }
+
