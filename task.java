@@ -58,5 +58,15 @@ public class task {
     }
 
     //Setters
+    public void setTaskName(String name) {
+        this.taskName = name;
+    }
 
+    public void setTaskDescription(String description) {
+        this.taskDescription = description;
+    }
+
+    public void setTaskPriority(String priority) {
+        this.taskPriority = priority;
+    }
 }

@@ -72,7 +72,7 @@ public class taskCompass {
                             "\n\tDescription: " + getRepeatTasks().get(i).getTaskDescription() + 
                             "\n\tPriority: " + getRepeatTasks().get(i).getTaskPriority() + 
                             "\n\tRepetition: " + getRepeatTasks().get(i).getRepeatInterval() + 
-                            "\n\tEnd Date: " + getRepeatTasks().get(i).getEndDate());
+                            "\n\tEnd-Date: " + getRepeatTasks().get(i).getEndDate());
                     }
                 }
             
@@ -103,7 +103,7 @@ public class taskCompass {
                             "\n\tPartner Name: " + getComboTasks().get(i).getPartnerName() + 
                             "\n\tPriority: " + getComboTasks().get(i).getTaskPriority() + 
                             "\n\tRepetition: " + getComboTasks().get(i).getRepeatInterval() + 
-                            "\n\tEnd Date: " + getComboTasks().get(i).getEndDate());
+                            "\n\tEnd-Date: " + getComboTasks().get(i).getEndDate());
                     }
                 }
 
@@ -116,7 +116,8 @@ public class taskCompass {
                 viewTasks(sc);
             }
         }
-    } //END View tasks method
+    }
+    //END View tasks method
 
     // START View Notifications method 
         public LocalDate getTaskEndDate(Object task) {
@@ -140,6 +141,7 @@ public class taskCompass {
             }
             return "Unknown Task";
         }
+
         public int getTaskPriorityValue(Object task) {
             String priority = "";
             if (task instanceof task) {
@@ -163,6 +165,7 @@ public class taskCompass {
                     return 0;
             }
         }
+
         public String getTaskPriority(Object task) {
             if (task instanceof task) {
                 return ((task) task).getTaskPriority();
@@ -175,7 +178,6 @@ public class taskCompass {
             }
             return "Unknown";
         }
-        
     // END View Notifications method
 
     // START Create task method
@@ -247,9 +249,9 @@ public class taskCompass {
                 }
             }
         
-            // Validate end date
+            // Validate end-date
             while (true) {
-                System.out.println("Enter end date (YYYY-MM-DD) or leave blank for no end date: ");
+                System.out.println("Enter end-date (YYYY-MM-DD) or leave blank for no end-date: ");
                 String endDateInput = sc.nextLine();
         
                 if (endDateInput.isEmpty()) {
@@ -265,8 +267,6 @@ public class taskCompass {
                 }
             }
         }
-        
-
 
         //PARTNER TASK CREATION
         System.out.println("Did you want this to be a partner task? (yes/no): ");
@@ -283,14 +283,13 @@ public class taskCompass {
 
                 while(selectingPartner) {
                     System.out.println("Available partners:");
-                    for (int i = 0; i < users.size(); i++ ) {
+                    for (int i = 0; i < users.size(); i++) {
                         if (!users.get(i).equals(getCurrentUser())) {
-                            System.out.print( users.get(i) + " ");
+                            System.out.print("'" + users.get(i) + "'  ");
                         }
-                        System.out.println("\n");
                     }
 
-                    System.out.println("Enter user to partner with: ");
+                    System.out.println("\nEnter user to partner with: ");
                     String partnerSearch = sc.nextLine();
                     if (users.contains(partnerSearch)) {
                         if (partnerSearch.equals(getCurrentUser())) {
@@ -363,37 +362,356 @@ public class taskCompass {
                 System.out.println("Error updating search criteria! This shouldn't happen...");
             } else {
                 if(matchedType == task.TaskType.BASE) {
+                    //EDIT BASE TASK
                     System.out.println( 
-                            "\n\tTitle: " + getTasks().get(matchedIndex).getTaskName() + 
-                            "\n\tDescription: " + getTasks().get(matchedIndex).getTaskDescription() + 
-                            "\n\tPriority: " + getTasks().get(matchedIndex).getTaskPriority());
+                        "\n\tTitle: " + getTasks().get(matchedIndex).getTaskName() + 
+                        "\n\tDescription: " + getTasks().get(matchedIndex).getTaskDescription() + 
+                        "\n\tPriority: " + getTasks().get(matchedIndex).getTaskPriority());
+
+                    System.out.println("What do you want to edit?\nOptions: (T)itle, (D)escription, (P)riority: ");
+                    String editSelection = sc.nextLine();
+
+                    switch (editSelection.toLowerCase()) {
+                        case "title":
+                        case "t":
+                            System.out.print("Current title: " + getTasks().get(matchedIndex).getTaskName() + "\nEnter new title: ");
+                            getTasks().get(matchedIndex).setTaskName(sc.nextLine());
+                            break;
+
+                        case "description":
+                        case "d":
+                            System.out.print("Current description: " + getTasks().get(matchedIndex).getTaskDescription() + "\nEnter new description: ");
+                            getTasks().get(matchedIndex).setTaskDescription(sc.nextLine());
+                            break;
+
+                        case "priority":
+                        case "p":
+                            boolean validPriority = false;
+                            System.out.println("What is the new priority? 3:High, 2:Medium, 1:Low : ");
+                            String taskPriority = "";
+                            while(!validPriority) {
+                                String priorityValue = sc.nextLine();
+                                switch (priorityValue) {
+                                    case "3":
+                                    case "High":
+                                        taskPriority = "High";
+                                        validPriority = true;
+                                        getTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "2":
+                                    case "Medium":
+                                        taskPriority = "Medium";
+                                        validPriority = true;
+                                        getTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "1":
+                                    case "Low":
+                                        taskPriority = "Low";
+                                        validPriority = true;
+                                        getTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    default:
+                                        System.out.println("Invalid selection. Enter 3 for High Priority, 2 for Medium Priority, or 1 for Low Priority: ");
+                                        break;
+                                }
+                            }
+                            break;
+                    
+                        default:
+                            System.out.println("Invalid selection, cancelling edit.");
+                            break;
+                    }
                 } else if (matchedType == task.TaskType.REPEAT) {
+                    //EDIT REPEAT TASK
                     System.out.println( 
-                            "\n\tTitle: " + getRepeatTasks().get(matchedIndex).getTaskName() + 
-                            "\n\tDescription: " + getRepeatTasks().get(matchedIndex).getTaskDescription() + 
-                            "\n\tPriority: " + getRepeatTasks().get(matchedIndex).getTaskPriority() + 
-                            "\n\tRepetition: " + getRepeatTasks().get(matchedIndex).getRepeatInterval() + 
-                            "\n\tEnd Date: " + getRepeatTasks().get(matchedIndex).getEndDate());  
+                        "\n\tTitle: " + getRepeatTasks().get(matchedIndex).getTaskName() + 
+                        "\n\tDescription: " + getRepeatTasks().get(matchedIndex).getTaskDescription() + 
+                        "\n\tPriority: " + getRepeatTasks().get(matchedIndex).getTaskPriority() + 
+                        "\n\tRepetition: " + getRepeatTasks().get(matchedIndex).getRepeatInterval() + 
+                        "\n\tEnd-Date: " + getRepeatTasks().get(matchedIndex).getEndDate());  
+
+                    System.out.println("What do you want to edit?\nOptions: (T)itle, (D)escription, (P)riority, (R)epetition, (E)nd-Date: ");
+                    String editSelection = sc.nextLine();
+
+                    switch (editSelection.toLowerCase()) {
+                        case "title":
+                        case "t":
+                            System.out.print("Current title: " + getRepeatTasks().get(matchedIndex).getTaskName() + "\nEnter new title: ");
+                            getRepeatTasks().get(matchedIndex).setTaskName(sc.nextLine());
+                            break;
+
+                        case "description":
+                        case "d":
+                            System.out.print("Current description: " + getRepeatTasks().get(matchedIndex).getTaskDescription() + "\nEnter new description: ");
+                            getRepeatTasks().get(matchedIndex).setTaskDescription(sc.nextLine());
+                            break;
+
+                        case "priority":
+                        case "p":
+                            boolean validPriority = false;
+                            System.out.println("What is the new priority? 3:High, 2:Medium, 1:Low : ");
+                            String taskPriority = "";
+                            while(!validPriority) {
+                                String priorityValue = sc.nextLine();
+                                switch (priorityValue) {
+                                    case "3":
+                                    case "High":
+                                        taskPriority = "High";
+                                        validPriority = true;
+                                        getRepeatTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "2":
+                                    case "Medium":
+                                        taskPriority = "Medium";
+                                        validPriority = true;
+                                        getRepeatTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "1":
+                                    case "Low":
+                                        taskPriority = "Low";
+                                        validPriority = true;
+                                        getRepeatTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    default:
+                                        System.out.println("Invalid selection. Enter 3 for High Priority, 2 for Medium Priority, or 1 for Low Priority: ");
+                                        break;
+                                }
+                            }
+                            break;
+
+                        case "repetition":
+                        case "r":
+                            String editedRepeatInterval = "Error";
+                            System.out.println("Current repeat interval: " + getRepeatTasks().get(matchedIndex).getRepeatInterval());
+                            while (true) {
+                                System.out.println("Enter new repeat interval (daily, weekly, monthly) or use abbreviations (d, w, m): ");
+                                editedRepeatInterval = sc.nextLine().toLowerCase();
+                        
+                                if (editedRepeatInterval.equals("daily") || editedRepeatInterval.equals("d")) {
+                                    editedRepeatInterval = "daily";
+                                    break;
+                                } else if (editedRepeatInterval.equals("weekly") || editedRepeatInterval.equals("w")) {
+                                    editedRepeatInterval = "weekly";
+                                    break;
+                                } else if (editedRepeatInterval.equals("monthly") || editedRepeatInterval.equals("m")) {
+                                    editedRepeatInterval = "monthly";
+                                    break;
+                                } else {
+                                    System.out.println("Invalid input. Please enter 'daily', 'weekly', 'monthly' or their abbreviations ('d', 'w', 'm').");
+                                }
+                            }
+                            getRepeatTasks().get(matchedIndex).setRepeatInterval(editedRepeatInterval);
+                            break;
+
+                        case "end-date":
+                        case "end":
+                        case "e":
+                            LocalDate editedEndDate = LocalDate.now();
+                            System.out.println("Current end-date: " + getRepeatTasks().get(matchedIndex).getEndDate());
+                            while (true) {
+                                System.out.println("Enter end-date (YYYY-MM-DD) or leave blank for no end-date: ");
+                                String endDateInput = sc.nextLine();
+                        
+                                if (endDateInput.isEmpty()) {
+                                    editedEndDate = null;
+                                    break;
+                                }
+                        
+                                try {
+                                    editedEndDate = LocalDate.parse(endDateInput);
+                                    break;
+                                } catch (DateTimeParseException e) {
+                                    System.out.println("\nInvalid date format. Please enter the date in YYYY-MM-DD format.\n");
+                                }
+                            }
+                            getRepeatTasks().get(matchedIndex).setEndDate(editedEndDate);
+                            break;
+
+                        default:
+                            System.out.println("Invalid selection, cancelling edit.");
+                            break;
+                    }
                 } else if (matchedType == task.TaskType.PARTNER) {
+                    //EDIT PARTNER TASK
                     System.out.println( 
-                            "\n\tTitle: " + getPartnerTasks().get(matchedIndex).getTaskName() + 
-                            "\n\tDescription: " + getPartnerTasks().get(matchedIndex).getTaskDescription() + 
-                            "\n\tPartner Name: " + getPartnerTasks().get(matchedIndex).getPartnerName() +
-                            "\n\tPriority: " + getPartnerTasks().get(matchedIndex).getTaskPriority());
+                        "\n\tTitle: " + getPartnerTasks().get(matchedIndex).getTaskName() + 
+                        "\n\tDescription: " + getPartnerTasks().get(matchedIndex).getTaskDescription() + 
+                        "\n\tPriority: " + getPartnerTasks().get(matchedIndex).getTaskPriority());
+
+                    System.out.println("What do you want to edit?\nOptions: (T)itle, (D)escription, (P)riority: ");
+                    String editSelection = sc.nextLine();
+
+                    switch (editSelection.toLowerCase()) {
+                        case "title":
+                        case "t":
+                            System.out.print("Current title: " + getPartnerTasks().get(matchedIndex).getTaskName() + "\nEnter new title: ");
+                            getPartnerTasks().get(matchedIndex).setTaskName(sc.nextLine());
+                            break;
+
+                        case "description":
+                        case "d":
+                            System.out.print("Current description: " + getPartnerTasks().get(matchedIndex).getTaskDescription() + "\nEnter new description: ");
+                            getPartnerTasks().get(matchedIndex).setTaskDescription(sc.nextLine());
+                            break;
+
+                        case "priority":
+                        case "p":
+                            boolean validPriority = false;
+                            System.out.println("What is the new priority? 3:High, 2:Medium, 1:Low : ");
+                            String taskPriority = "";
+                            while(!validPriority) {
+                                String priorityValue = sc.nextLine();
+                                switch (priorityValue) {
+                                    case "3":
+                                    case "High":
+                                        taskPriority = "High";
+                                        validPriority = true;
+                                        getPartnerTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "2":
+                                    case "Medium":
+                                        taskPriority = "Medium";
+                                        validPriority = true;
+                                        getPartnerTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "1":
+                                    case "Low":
+                                        taskPriority = "Low";
+                                        validPriority = true;
+                                        getPartnerTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    default:
+                                        System.out.println("Invalid selection. Enter 3 for High Priority, 2 for Medium Priority, or 1 for Low Priority: ");
+                                        break;
+                                }
+                            }
+                            break;
+                    
+                        default:
+                            System.out.println("Invalid selection, cancelling edit.");
+                            break;
+                    }
                 } else if (matchedType == task.TaskType.COMBO) {
+                    //EDIT COMBO TASK
                     System.out.println( 
-                            "\n\tTitle: " + getComboTasks().get(matchedIndex).getTaskName() + 
-                            "\n\tDescription: " + getComboTasks().get(matchedIndex).getTaskDescription() +
-                            "\n\tPartner Name: " + getComboTasks().get(matchedIndex).getPartnerName() + 
-                            "\n\tPriority: " + getComboTasks().get(matchedIndex).getTaskPriority() + 
-                            "\n\tRepetition: " + getComboTasks().get(matchedIndex).getRepeatInterval() + 
-                            "\n\tEnd Date: " + getComboTasks().get(matchedIndex).getEndDate());
+                        "\n\tTitle: " + getComboTasks().get(matchedIndex).getTaskName() + 
+                        "\n\tDescription: " + getComboTasks().get(matchedIndex).getTaskDescription() +
+                        "\n\tPriority: " + getComboTasks().get(matchedIndex).getTaskPriority() + 
+                        "\n\tRepetition: " + getComboTasks().get(matchedIndex).getRepeatInterval() + 
+                        "\n\tEnd-Date: " + getComboTasks().get(matchedIndex).getEndDate());
+
+                    System.out.println("What do you want to edit?\nOptions: (T)itle, (D)escription, (P)riority, (R)epetition, (E)nd-Date: ");
+                    String editSelection = sc.nextLine();
+
+                    switch (editSelection.toLowerCase()) {
+                        case "title":
+                        case "t":
+                            System.out.print("Current title: " + getComboTasks().get(matchedIndex).getTaskName() + "\nEnter new title: ");
+                            getComboTasks().get(matchedIndex).setTaskName(sc.nextLine());
+                            break;
+
+                        case "description":
+                        case "d":
+                            System.out.print("Current description: " + getComboTasks().get(matchedIndex).getTaskDescription() + "\nEnter new description: ");
+                            getComboTasks().get(matchedIndex).setTaskDescription(sc.nextLine());
+                            break;
+
+                        case "priority":
+                        case "p":
+                            boolean validPriority = false;
+                            System.out.println("What is the new priority? 3:High, 2:Medium, 1:Low : ");
+                            String taskPriority = "";
+                            while(!validPriority) {
+                                String priorityValue = sc.nextLine();
+                                switch (priorityValue) {
+                                    case "3":
+                                    case "High":
+                                        taskPriority = "High";
+                                        validPriority = true;
+                                        getComboTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "2":
+                                    case "Medium":
+                                        taskPriority = "Medium";
+                                        validPriority = true;
+                                        getComboTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    case "1":
+                                    case "Low":
+                                        taskPriority = "Low";
+                                        validPriority = true;
+                                        getComboTasks().get(matchedIndex).setTaskPriority(taskPriority);
+                                        break;
+                                    default:
+                                        System.out.println("Invalid selection. Enter 3 for High Priority, 2 for Medium Priority, or 1 for Low Priority: ");
+                                        break;
+                                }
+                            }
+                            break;
+
+                        case "repetition":
+                        case "r":
+                            String editedRepeatInterval = "Error";
+                            System.out.println("Current repeat interval: " + getComboTasks().get(matchedIndex).getRepeatInterval());
+                            while (true) {
+                                System.out.println("Enter new repeat interval (daily, weekly, monthly) or use abbreviations (d, w, m): ");
+                                editedRepeatInterval = sc.nextLine().toLowerCase();
+                        
+                                if (editedRepeatInterval.equals("daily") || editedRepeatInterval.equals("d")) {
+                                    editedRepeatInterval = "daily";
+                                    break;
+                                } else if (editedRepeatInterval.equals("weekly") || editedRepeatInterval.equals("w")) {
+                                    editedRepeatInterval = "weekly";
+                                    break;
+                                } else if (editedRepeatInterval.equals("monthly") || editedRepeatInterval.equals("m")) {
+                                    editedRepeatInterval = "monthly";
+                                    break;
+                                } else {
+                                    System.out.println("Invalid input. Please enter 'daily', 'weekly', 'monthly' or their abbreviations ('d', 'w', 'm').");
+                                }
+                            }
+                            getComboTasks().get(matchedIndex).setRepeatInterval(editedRepeatInterval);
+                            break;
+
+                        case "end-date":
+                        case "end":
+                        case "e":
+                            LocalDate editedEndDate = LocalDate.now();
+                            System.out.println("Current end-date: " + getComboTasks().get(matchedIndex).getEndDate());
+                            while (true) {
+                                System.out.println("Enter end-date (YYYY-MM-DD) or leave blank for no end-date: ");
+                                String endDateInput = sc.nextLine();
+                        
+                                if (endDateInput.isEmpty()) {
+                                    editedEndDate = null;
+                                    break;
+                                }
+                        
+                                try {
+                                    editedEndDate = LocalDate.parse(endDateInput);
+                                    break;
+                                } catch (DateTimeParseException e) {
+                                    System.out.println("\nInvalid date format. Please enter the date in YYYY-MM-DD format.\n");
+                                }
+                            }
+                            getComboTasks().get(matchedIndex).setEndDate(editedEndDate);
+                            break;
+
+                        default:
+                            System.out.println("Invalid selection, cancelling edit.");
+                            break;
+                    }
                 } else {
                     System.out.println("Error comparing task.TaskType enum! This shouldn't happen...");
                 }
             }
         } else {
-            System.out.println("Multiple tasks found with same title, listing options:");
+            if (matchingTasks == 0) {
+                System.out.println("No tasks found with that title:");
+            }
+            if (matchingTasks > 1) {
+                System.out.println("Multiple tasks found with same title, unable to edit:");
+            }
         }
     }
     //END Edit task method
